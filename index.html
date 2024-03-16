@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Geolocation Puzzle</title>
+        <title>Title</title>
+        <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+        <!--<script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>-->
+        <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
+    </head>
+    <body>
+        <a-scene embedded arjs="sourceType: webcam; debugUIEnd:false;">
+            <a-assets>
+                <img src="./pipicarton.jpg" id="viking" />
+                <!-->preload</-->
+                <img src="./brickNormal.png" id="texture" />
+                <img src="./symbolE.patt" id="logo" />
+                <img src="./symbolE.patt" id="glasses" />
+                <a-assets-item src="./farmDog.glb" id="dog"></a-assets-item>
+            </a-assets>
+
+            <a-marker type="pattern" url="#logo">
+                <a-image
+                    src="#glasses"
+                    rotation="-90 0 0"
+                    position="-1 0 0"
+                    scale="1 .200 1"></a-image>
+            </a-marker>
+
+            <!--
+                        <a-entity
+                    gltf-model="#dog"
+                    position="0 2 -5"
+                    rotation="0 -90 0"></a-entity>
+                    -->
+            <!--
+        <a-box color="#BADA55"
+               src="#viking"
+               repeat="2 2"
+               normal-map="#texture"
+               normal-texture-repeat="2 2"
+               roughness="0.5"
+               position="0 1.5 -4.1"
+               gps-entity-place="latitude: 37.517850; longitude: -121.950150;">
+            </a-box> -->
+
+            <!--<a-sphere color="#EE0000"></a-sphere>-->
+
+            <!--
+            <a-plane
+                src="#viking"
+                position="0 1.5 -3.1"
+                side="double"
+                look-at="[gps-camera]"></a-plane>
+                -->
+
+            <a-entity camera></a-entity>
+        </a-scene>
+    </body>
+</html>
+37.517850 -121.950150
