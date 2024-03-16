@@ -11,15 +11,12 @@
     <body>
         <a-scene embedded arjs="sourceType: webcam; debugUIEnd:false;">
             <a-assets>
-                <img src="./pipicarton.jpg" id="viking" />
-                <!-->preload</-->
-                <img src="./brickNormal.png" id="texture" />
-                <img src="./symbolE.patt" id="logo" />
-                <img src="./symbolE.patt" id="glasses" />
-                <a-assets-item src="./farmDog.glb" id="dog"></a-assets-item>
+                
+                <img src="./glasses.png" id="glasses" />
+                <!--<a-assets-item src="./farmDog.glb" id="dog"></a-assets-item>-->
             </a-assets>
-
-            <a-marker type="pattern" url="#logo">
+            
+            <a-marker type="pattern" url="./symbolE.patt">
                 <a-image
                     src="#glasses"
                     rotation="-90 0 0"
