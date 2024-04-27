@@ -1,0 +1,70 @@
+<!doctype html>
+sda<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Pose Me!</title>
+
+        <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+        <!--<script src="https://unpkg.com/aframe-event-set-component@4.2.1/dist/aframe-event-set-component.min.js"></script>-->
+        <script src="https://rawgit.com/mayognaise/aframe-mouse-cursor-component/master/dist/aframe-mouse-cursor-component.min.js"></script>
+        <!--<script src="./js/lookAt.js"></script>-->
+        <!--<script src="./js/setColor.js"></script>-->
+        <!--<script src="./js/colorChange.js"></script>-->w
+        <script src="./js/poseMe.js"></script>
+        <script src="./js/targetCircles.js"></script>
+        <!--<script src="./js/collider-check.js"></script>-->
+        <!--<script src="./js/onClick.js"></script>-->
+        <!--<script src="./js/rotateMatch/js"></script>-->
+    </head>
+    <body>
+        s<a-scene pose-me cursor="rayOrigin:mouse">
+            <a-assets>
+                <img src="./assets/bubblePerson.png" id="bubble" />
+                <img src="./assets/bubblePx.png" id="bubbleCursor" />
+            </a-assets>
+            <!--
+            <a-plane
+                data-brackets-id="98"
+                position="0 0.80503 -3.92"
+                color="rgb(179,217,183)"
+                material=""
+                geometry=""
+                src="#bubble"
+                pose-me
+                class="collidable"></a-plane>
+                -->
+            
+            <!--
+            <a-box
+                id="test" w
+                position="2 0.8 -4"
+                check-rotation
+                rotation="0 0 0"
+                event-set__match="_event:click; z:-25">
+            </a-box>
+            -->
+
+            <a-plane 
+                set-color="#008899"
+                position="0 0 0"
+                color="#802020"
+                rotation="-90 0 0"
+                scale="50 50 1"></a-plane>
+            <a-sky color="#202030"></a-sky>
+
+            <a-camera id="cam" mouse-cursor wasd-controls-enabled="false">
+                <a-cursor>
+                    <a-text id="score" value="Score: " position="0 1.2 -1"></a-text>
+                    <a-plane
+                        src="#bubble"
+                        material="shader: flat"
+                        scale="0.5 0.5 1"
+                        position="0 0 -.1"
+                        opacity=".65"
+                        transparent="true">
+                    </a-plane>
+                </a-cursor>
+            </a-camera>
+        </a-scene>
+    </body>
+</html>
