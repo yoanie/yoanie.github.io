@@ -3,7 +3,7 @@ AFRAME.registerComponent("pose-me-target", {
         let bubble = this.el; //bubble positioning
         let flutter = document.createElement("a-entity"); //side-by-side animation
         let circle = document.createElement("a-plane"); //bubble image
-        //let hitbox = document.createElement("a-circle");
+        let hitbox = document.createElement("a-circle");
 
         const updateAttribute = function () {
             //position
@@ -12,6 +12,7 @@ AFRAME.registerComponent("pose-me-target", {
             let randomX = Math.random() * xVariation * 2 - xVariation;
             let randomZ = Math.random() * zVariation * 2 - zVariation - 5;
             let position = randomX + " .5 " + randomZ;
+            //let position = "0 .5 -5"; 
             bubble.setAttribute("position", position);
 
             //console.log("updated attribute");
@@ -30,10 +31,9 @@ AFRAME.registerComponent("pose-me-target", {
                 "rotation",
                 "0 0 " + (Math.random() * 180 - 90)
             );
-            let moai = 700;
             circle.setAttribute(
                 "animation",
-                "property: position;from:0 4 0; to: 0 0 0; loop:true; dur:  2500;direction:alternate; easing:linear; "
+                "property: position;from:0 4 0; to: 0 0 0; loop:true; dur:" +((700*Math.random()) + 2500)+";direction:alternate; easing:linear; "
             );
         };
         
@@ -56,19 +56,21 @@ AFRAME.registerComponent("pose-me-target", {
 
         circle.setAttribute("src", "#bubble");
         
-        circle.setAttribute("class", "poseMeTarget");
+        //circle.setAttribute("class", "poseMeTarget");
         circle.setAttribute("material", "shader: flat");
         circle.setAttribute("transparent", "true");
         circle.setAttribute("scale","2 2 1");
         circle.setAttribute("look-at", "true");
+        circle.setAttribute("position", "0 0 0.2");
         //circle.setAttribute("opacity", "1");
 
-        //hitbox.setAttribute("position", "0 0 -0.1");
-        //hitbox.setAttribute("class", "poseMeTarget");
-        //hitbox.setAttribute("material", "shader: flat; color: blue");
-        //hitbox.setAttribute("opacity",".5");
-        //hitbox.setAttribute("transparent", "true");
-        //hitbox.setAttribute("scale",".25 .25 1");
+
+        hitbox.setAttribute("class", "poseMeTarget");
+        hitbox.setAttribute("material", "shader: flat; color: blue");
+        hitbox.setAttribute("opacity",".5");
+        hitbox.setAttribute("position", "0 0 -0.1");
+        hitbox.setAttribute("transparent", "true");
+        hitbox.setAttribute("scale",".25 .25 1");
         
         //circle.bind(updateAttribute);
         circle.setAttribute("reset", respawn);
@@ -77,7 +79,7 @@ AFRAME.registerComponent("pose-me-target", {
 
         flutter.appendChild(circle);
         bubble.appendChild(flutter);
-        //circle.appendChild(hitbox);
+        circle.appendChild(hitbox);
         //setInterval(updateAttribute, 3000);
     },
     tick: function (){

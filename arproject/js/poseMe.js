@@ -21,7 +21,7 @@ AFRAME.registerComponent("pose-me", {
         //raycasterEl.components.raycaster.refreshObjects();
 
         //randomly set location
-        let numCircles = 1;
+        let numCircles = 2;
         for (let i = 0; i < numCircles; i++) {
             let bubble = document.createElement("a-entity");
             bubble.setAttribute("pose-me-target", true);
