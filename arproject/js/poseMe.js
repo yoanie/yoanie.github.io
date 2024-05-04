@@ -32,7 +32,7 @@ AFRAME.registerComponent("pose-me", {
         const compareRotation = function (otherCircle) {
             let marginOfError = 90;
             let camRotate = cam.getAttribute("rotation").z;
-            let otherRotate = otherCircle.getAttribute("rotation").z;
+            let otherRotate = otherCircle.getAttribute("rotation").z; 
 
             if (Math.abs(camRotate - otherRotate) <= marginOfError) {
                 //console.log("match!");
@@ -40,11 +40,28 @@ AFRAME.registerComponent("pose-me", {
                 currentScore++;
                 score.setAttribute("value", "Score: " + currentScore);
                 let onReset = otherCircle.getAttribute("reset");
-                console.log(onReset);
+                //console.log(onReset);
                 onReset();
             } else {
                 //console.log("no match!");
             }
         };
     }
+    //tick: function(){
+    //    let cursor = document.createElement("a-plane");
+    //    let camera = document.querySelector("#cam");
+    //    //                        src="#bubble"
+    //                    //transparent="true"
+    //                    //material="shader: flat"
+    //                    //scale="0.5 0.5 1"
+    //                    //position="0 0 -.1"
+    //    cursor.setAttribute("src", "#bubble");
+    //    cursor.setAttribute("transparent", "true");
+    //    cursor.setAttribute("material", "shader: flat");
+    //    cursor.setAttribute("scale", "0.5 0.5 1");
+    //    a
+    //    cursor.setAttribute("render-order", "cursor");
+    //    
+    //    camera.appendChild(cursor);
+    //}
 });

@@ -4,6 +4,7 @@ AFRAME.registerComponent("pose-me-target", {
         let flutter = document.createElement("a-entity"); //side-by-side animation
         let circle = document.createElement("a-plane"); //bubble image
         let hitbox = document.createElement("a-circle");
+        //let scene = document.querySelector("a-scene");
 
         const updateAttribute = function () {
             //position
@@ -53,6 +54,7 @@ AFRAME.registerComponent("pose-me-target", {
             easing:easeInOutSine; 
             loop:true`
         );
+        //flutter.setAttribute("look-at", "true");
 
         circle.setAttribute("src", "#bubble");
         
@@ -62,6 +64,7 @@ AFRAME.registerComponent("pose-me-target", {
         circle.setAttribute("scale","2 2 1");
         circle.setAttribute("look-at", "true");
         circle.setAttribute("position", "0 0 0.2");
+        circle.setAttribute("render-order", "bubbles");
         //circle.setAttribute("opacity", "1");
 
 
@@ -71,15 +74,18 @@ AFRAME.registerComponent("pose-me-target", {
         hitbox.setAttribute("position", "0 0 -0.1");
         hitbox.setAttribute("transparent", "true");
         hitbox.setAttribute("scale",".25 .25 1");
+        hitbox.setAttribute("render-order", "hitbox");
         
         //circle.bind(updateAttribute);
         circle.setAttribute("reset", respawn);
         
         updateAttribute();
-
+        
+        //scene.appendChild(flutter);
         flutter.appendChild(circle);
-        bubble.appendChild(flutter);
         circle.appendChild(hitbox);
+        bubble.appendChild(flutter);
+        
         //setInterval(updateAttribute, 3000);
     },
     tick: function (){
@@ -88,5 +94,6 @@ AFRAME.registerComponent("pose-me-target", {
         if (yPos <= 0){
             el.updateAttribute();
         }
+
     }
 });
