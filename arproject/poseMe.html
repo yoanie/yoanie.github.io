@@ -1,5 +1,5 @@
 <!doctype html>
-sda<html lang="en">
+<html lang="en">
     <head>
         <meta charset="UTF-8" />
         <title>Pose Me!</title>
@@ -7,9 +7,11 @@ sda<html lang="en">
         <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
         <!--<script src="https://unpkg.com/aframe-event-set-component@4.2.1/dist/aframe-event-set-component.min.js"></script>-->
         <script src="https://rawgit.com/mayognaise/aframe-mouse-cursor-component/master/dist/aframe-mouse-cursor-component.min.js"></script>
-        <!--<script src="./js/lookAt.js"></script>-->
+        <script src="https://unpkg.com/aframe-render-order-component@1.1.0/dist/aframe-render-order-component.min.js"></script>
+        <script src="./js/lookAt.js"></script>
         <!--<script src="./js/setColor.js"></script>-->
-        <!--<script src="./js/colorChange.js"></script>-->w
+        <!--<script src="./js/colorChange.js"></script>-->
+
         <script src="./js/poseMe.js"></script>
         <script src="./js/targetCircles.js"></script>
         <!--<script src="./js/collider-check.js"></script>-->
@@ -17,12 +19,14 @@ sda<html lang="en">
         <!--<script src="./js/rotateMatch/js"></script>-->
     </head>
     <body>
-        s<a-scene pose-me cursor="rayOrigin:mouse">
+        <a-scene
+            
+            cursor="rayOrigin:mouse"
+            render-order="cursor, bubbles, hitbox">
             <a-assets>
                 <img src="./assets/bubblePerson.png" id="bubble" />
                 <img src="./assets/bubblePx.png" id="bubbleCursor" />
             </a-assets>
-            <!--
             <a-plane
                 data-brackets-id="98"
                 position="0 0.80503 -3.92"
@@ -31,9 +35,38 @@ sda<html lang="en">
                 geometry=""
                 src="#bubble"
                 pose-me
-                class="collidable"></a-plane>
-                -->
+                     
+                class="collidable"
+                transparent="true"></a-plane>
+            <a-plane
+                position="2 1.5 -3.92"
+                     
+                     rotation="0 0 0"
+                     color="#6495ED"
+                     look-at
+                     ></a-plane>
+                        <a-plane
+                position="3 1.5 -3.92"
+                     
+                     rotation="0 0 0"
+                     color="#6495ED"
+                     look-at
+                     ></a-plane>
+                        <a-plane
+                position="4 1.5 -3.92"
+                     
+                     rotation="0 0 0"
+                     color="#6495ED"
+                     look-at
+                     ></a-plane>
             
+                        <a-plane
+                position="5 1.5 -3.92"
+                     
+                     rotation="0 0 0"
+                     color="#6495ED"
+                     look-at
+                     ></a-plane>
             <!--
             <a-box
                 id="test" w
@@ -44,7 +77,7 @@ sda<html lang="en">
             </a-box>
             -->
 
-            <a-plane 
+            <a-plane
                 set-color="#008899"
                 position="0 0 0"
                 color="#802020"
@@ -52,17 +85,29 @@ sda<html lang="en">
                 scale="50 50 1"></a-plane>
             <a-sky color="#202030"></a-sky>
 
-            <a-camera id="cam" mouse-cursor wasd-controls-enabled="false">
+            <a-camera
+                      position="0 1.5 0"
+                id="cam"
+                mouse-cursor
+                wasd-controls-enabled="true"
+                renderer="sortObjects: true; sortTransparentObjects: true">
                 <a-cursor>
-                    <a-text id="score" value="Score: " position="0 1.2 -1"></a-text>
+                    <a-text
+                        id="score"
+                        value="Score: "
+                        position="0 1.2 -1"
+                        font="ANDYB.TTF-msdf.json"
+                        color="#33C3F0"
+                        negate="false"></a-text>
                     <a-plane
                         src="#bubble"
+                        transparent="true"
                         material="shader: flat"
-                        scale="0.5 0.5 1"
-                        position="0 0 -.1"
-                        opacity=".65"
-                        transparent="true">
+                        scale="5.5 5.5 1"
+                        position="0 0 -13.5"
+                        render-order="cursor">
                     </a-plane>
+                    
                 </a-cursor>
             </a-camera>
         </a-scene>
