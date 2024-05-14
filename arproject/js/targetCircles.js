@@ -2,8 +2,8 @@ AFRAME.registerComponent("pose-me-target", {
     init: function () {
         let bubble = this.el; //bubble positioning
         let flutter = document.createElement("a-entity"); //side-by-side animation
-        let circle = document.createElement("a-plane"); //bubble image
-        let hitbox = document.createElement("a-plane");
+        let circle = document.createElement("a-circle"); //bubble image
+        let hitbox = document.createElement("a-circle");
         //let scene = document.querySelector("a-scene");
 
         const updateAttribute = function () {
@@ -38,8 +38,7 @@ AFRAME.registerComponent("pose-me-target", {
                 from:0 4 0; 
                 to: 0 0 0; 
                 loop:true; 
-                dur:${700 * Math.random() + 2500};
-                dir:alternate; 
+                dur:${700 * Math.random() + 2500}; 
                 easing:linear;`
             );
         };
@@ -67,8 +66,8 @@ AFRAME.registerComponent("pose-me-target", {
         //circle.setAttribute("class", "poseMeTarget");
         circle.setAttribute("material", "shader: flat");
         circle.setAttribute("transparent", "true");
-        circle.setAttribute("scale", "2 2 1");
-        //circle.setAttribute("radius", 1);
+        //circle.setAttribute("scale", "2 2 1");
+        circle.setAttribute("radius", 1);
         circle.setAttribute("look-at", "true");
         circle.setAttribute("position", "0 0 0.2");
         circle.setAttribute("render-order", "bubbles");
@@ -95,12 +94,12 @@ AFRAME.registerComponent("pose-me-target", {
         //setInterval(updateAttribute, 3000);
     },
     tick: function () {
-        if (initialize) {
+        //if (initialize) {
             let el = this.el;
             let yPos = el.getAttribute("position").y;
             if (yPos <= 0) {
                 el.updateAttribute();
             }
-        }
+        //}
     }
 });
