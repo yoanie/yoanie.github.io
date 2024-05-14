@@ -11,16 +11,20 @@
         <script src="./js/lookAt.js"></script>
         <!--<script src="./js/setColor.js"></script>-->
         <!--<script src="./js/colorChange.js"></script>-->
-
+        
         <script src="./js/poseMe.js"></script>
         <script src="./js/targetCircles.js"></script>
-        <!--<script src="./js/collider-check.js"></script>-->
-        <!--<script src="./js/onClick.js"></script>-->
-        <!--<script src="./js/rotateMatch/js"></script>-->
+        <link rel="stylesheet" href="./styles/style.css">
     </head>
     <body>
+        <div id="instructions">
+            Lock your phone in landscape mode, then rotate your bubble to match the falling bubbles! Don't let the bubbles hit the ground. 3 pops and you're out! 
+<br>
+            <button id="startButton">Start</button>
+        </div>
         <a-scene
-            
+            id="game"
+            pose-me
             cursor="rayOrigin:mouse"
             render-order="cursor, bubbles, hitbox">
             <a-assets>
@@ -29,53 +33,42 @@
             </a-assets>
             <a-plane
                 data-brackets-id="98"
-                position="0 0.80503 -3.92"
+                position="-5 0.80503 -3.92"
                 color="rgb(179,217,183)"
                 material=""
                 geometry=""
                 src="#bubble"
-                pose-me
-                     
+                
                 class="collidable"
                 transparent="true"></a-plane>
+
+            <a-entity
+                id="refresh-button"
+                geometry="primitive: box"
+                material="color: red"
+                position="0 0 -2"></a-entity>
+
             <a-plane
-                position="2 1.5 -3.92"
-                     
-                     rotation="0 0 0"
-                     color="#6495ED"
-                     look-at
-                     ></a-plane>
-                        <a-plane
-                position="3 1.5 -3.92"
-                     
-                     rotation="0 0 0"
-                     color="#6495ED"
-                     look-at
-                     ></a-plane>
-                        <a-plane
-                position="4 1.5 -3.92"
-                     
-                     rotation="0 0 0"
-                     color="#6495ED"
-                     look-at
-                     ></a-plane>
-            
-                        <a-plane
-                position="5 1.5 -3.92"
-                     
-                     rotation="0 0 0"
-                     color="#6495ED"
-                     look-at
-                     ></a-plane>
-            <!--
-            <a-box
-                id="test" w
-                position="2 0.8 -4"
-                check-rotation
+                position="2 0.80503 -3.92"
                 rotation="0 0 0"
-                event-set__match="_event:click; z:-25">
-            </a-box>
-            -->
+                color="#6495ED"
+                look-at></a-plane>
+            <a-plane
+                position="3 0.80503 -3.92"
+                rotation="0 0 0"
+                color="#6495ED"
+                look-at></a-plane>
+            <a-plane
+                position="4 0.80503 -3.92"
+                rotation="0 0 0"
+                color="#6495ED"
+                look-at></a-plane>
+
+            <a-plane
+                position="5 0.80503 -3.92"
+                rotation="0 0 0"
+                color="#6495ED"
+                look-at></a-plane>
 
             <a-plane
                 set-color="#008899"
@@ -86,30 +79,49 @@
             <a-sky color="#202030"></a-sky>
 
             <a-camera
-                      position="0 1.5 0"
+                position="0 1.5 0"
                 id="cam"
                 mouse-cursor
                 wasd-controls-enabled="true"
                 renderer="sortObjects: true; sortTransparentObjects: true">
                 <a-cursor>
                     <a-text
-                        id="score"
+                        id="score"  
                         value="Score: "
-                        position="0 1.2 -1"
-                        font="ANDYB.TTF-msdf.json"
+                        position="0 -0.51 -1"
+                        align="center"
                         color="#33C3F0"
                         negate="false"></a-text>
-                    <a-plane
+                    <a-circle
                         src="#bubble"
                         transparent="true"
                         material="shader: flat"
+                        radius=".5"
                         scale="5.5 5.5 1"
                         position="0 0 -13.5"
                         render-order="cursor">
-                    </a-plane>
-                    
+                    </a-circle>
                 </a-cursor>
             </a-camera>
         </a-scene>
+
+        <script>
+            //Code for instruction screen
+            let game = document.querySelector("#game");
+            game.hidden = true;
+
+            let startBtn = document.querySelector("#startButton");
+            startBtn.addEventListener("click", startGame);
+
+            function startGame(e) {
+                //code to start game
+                let instructions = document.querySelector("#instructions");
+                instructions.hidden = true;
+                game.hidden = false;
+                let gameCode = document.querySelector("a-scene").components["pose-me"];
+                console.log(gameCode);
+                gameCode.startGame();
+            }
+        </script>
     </body>
 </html>
