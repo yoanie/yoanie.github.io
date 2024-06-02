@@ -11,19 +11,21 @@
         <script src="./js/lookAt.js"></script>
         <!--<script src="./js/setColor.js"></script>-->
         <!--<script src="./js/colorChange.js"></script>-->
-        
+
         <script src="./js/poseMe.js"></script>
         <script src="./js/targetCircles.js"></script>
-        <link rel="stylesheet" href="./styles/style.css">
+        <link rel="stylesheet" href="./styles/style.css" />
     </head>
     <body>
-        <div id="instructions">
+        <!--a
+        <div id="instructions">                    
             Lock your phone in landscape mode.<br>
             Rotate your bubble to match the falling bubbles<br>
-            Don't let the bubbles hit the ground. 3 lives and you're out!
-<br>
+            Don't let the bubbles hit the ground. 3 lives and you're out!<br>
             <button id="startButton">Start</button>
         </div>
+        -->
+
         <a-scene
             id="game"
             pose-me
@@ -32,13 +34,29 @@
             <a-assets>
                 <img src="./assets/bubblePerson.png" id="bubble" />
                 <img src="./assets/bubblePx.png" id="bubbleCursor" />
+                <img src="./assets/ANDYBTTF.png" id="andybttf" />
+                <sound src="./assets/pop.mp3" id="pop" />
+                <sound
+                    src="https://cdn.glitch.global/0ffb2b61-172a-4b40-8f0c-6a963c789cb6/bach.mp3?v=1716602360835"
+                    id="bkgd" />
             </a-assets>
 
-            <a-entity
-                id="refresh-button"
-                geometry="primitive: box"
-                material="color: red"
-                position="0 0 -2"></a-entity>
+            <a-sound
+                id="popSound"
+                sound="src:#pop; autoplay:false; volume:0.80; loop:false; positional:true;"></a-sound>
+            <a-sound
+                id="bkgdSound"
+                sound="src:#bkgd; autoplay:true; volume:1; loop:true;positional:false;"></a-sound>
+
+            <!--
+            <a-plane
+                id="instructions"
+                color="#FFFF00"
+                position="0 0 -3"
+                width="5"
+                height="8"></a-plane>
+                -->
+
             <a-plane
                 position="2 0.80503 -3.92"
                 rotation="0 0 0"
@@ -65,7 +83,7 @@
                 color="#802020"
                 rotation="-90 0 0"
                 scale="50 50 1"></a-plane>
-            
+
             <a-sky color="#202030"></a-sky>
 
             <a-camera
@@ -76,11 +94,29 @@
                 renderer="sortObjects: true; sortTransparentObjects: true">
                 <a-cursor>
                     <a-text
-                        id="score"  
-                        value="Score: "
+                        id="score"
+                        value="Score: 0"
                         position="0 -0.51 -1"
+                        font="./assets/ANDYB-msdf.json"
+                        fontimage="#andybttf"
                         align="center"
-                        color="#33C3F0"
+                        negate="false"></a-text>
+                    <a-text
+                        id="lives"
+                        value="Lives: 0"
+                        position="0 -0.785 -1"
+                        font="./assets/ANDYB-msdf.json"
+                        fontimage="#andybttf"
+                        align="center"
+                        negate="false"></a-text>
+                    <a-text
+                        id="combo"
+                        value="No Combo"
+                        position="0 -1.031 -1"
+                        width="2.38"
+                        font="./assets/ANDYB-msdf.json"
+                        fontimage="#andybttf"
+                        align="center"
                         negate="false"></a-text>
                     <a-circle
                         src="#bubble"
@@ -91,25 +127,56 @@
                         position="0 0 -13.5"
                         render-order="cursor">
                     </a-circle>
+                    <a-entity
+                        id="instructions"
+                        position="0 .51 0"
+                        text="value:Lock your phone in landscape mode. Then rotate your phone to match the rotation of the falling bubbles. Move your cursor over the bubble and match it's rotation to get a point.         ;
+                            color:#000000;
+                            align:center;
+                            wrapCount:30;
+                      font:./assets/ANDYB-msdf.json;
+                      shader:msdf;
+                      negate:false;"
+                        geometry="primitive:plane; width:auto; height:auto;"
+                        material="color:#FFFFFF; shader:flat; visible:true;">
+                    </a-entity>
+
+                    <a-entity
+                        visible="false"
+                        id="gameOver"
+                        position="0 .51 0"
+                        text="value:Game Over! ...;
+                            color:#000000;
+                            align:center;
+                            wrapCount:30;
+                      font:./assets/ANDYB-msdf.json;
+                      shader:msdf;
+                      negate:false;"
+                        geometry="primitive:plane; width:auto; height:auto;"
+                        material="color:#FFFFFF; shader:flat; visible:true;">
+                    </a-entity>
                 </a-cursor>
             </a-camera>
         </a-scene>
 
         <script>
             //Code for instruction screen
-            let game = document.querySelector("#game");
-            game.hidden = true;
+            //let game = document.querySelector("#game");
+            //game.hidden = true;
+            //
+            //let startBtn = document.querySelector("#startButton");
+            //startBtn.addEventListener("click", startGame);
 
-            let startBtn = document.querySelector("#startButton");
-            startBtn.addEventListener("click", startGame);
+            setTimeout(startGame, 1000); //5000);
 
             function startGame(e) {
                 //code to start game
-                let instructions = document.querySelector("#instructions");
-                instructions.hidden = true;
-                game.hidden = false;
-                let gameCode = document.querySelector("a-scene").components["pose-me"];
-                console.log(gameCode);
+                //let instructions = document.querySelector("#instructions");
+                //instructions.hidden = true;
+                //game.hidden = false;
+
+                let gameCode =
+                    document.querySelector("a-scene").components["pose-me"];
                 gameCode.startGame();
             }
         </script>
