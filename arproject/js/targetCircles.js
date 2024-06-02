@@ -3,7 +3,7 @@ AFRAME.registerComponent("pose-me-target", {
         let bubble = this.el; //bubble positioning
         let flutter = document.createElement("a-entity"); //side-by-side animation
         let circle = document.createElement("a-circle"); //bubble image
-        let hitbox = document.createElement("a-circle");
+        //let hitbox = document.createElement("a-circle");
         //let scene = document.querySelector("a-scene");
 
         const updateAttribute = function () {
@@ -63,7 +63,7 @@ AFRAME.registerComponent("pose-me-target", {
 
         circle.setAttribute("src", "#bubble");
 
-        //circle.setAttribute("class", "poseMeTarget");
+        circle.setAttribute("class", "poseMeTarget");
         circle.setAttribute("material", "shader: flat");
         circle.setAttribute("transparent", "true");
         //circle.setAttribute("scale", "2 2 1");
@@ -73,33 +73,43 @@ AFRAME.registerComponent("pose-me-target", {
         circle.setAttribute("render-order", "bubbles");
         //circle.setAttribute("opacity", "1");
 
-        hitbox.setAttribute("class", "poseMeTarget");
-        hitbox.setAttribute("material", "shader: flat; color: blue");
-        hitbox.setAttribute("opacity", ".5");
-        hitbox.setAttribute("position", "0 0 -0.1");
-        hitbox.setAttribute("transparent", "true");
-        hitbox.setAttribute("scale", ".25 .25 1");
-        hitbox.setAttribute("render-order", "hitbox");
+        //hitbox.setAttribute("class", "poseMeTarget");
+        //hitbox.setAttribute("material", "shader: flat; color: blue");
+        //hitbox.setAttribute("opacity", ".5");
+        //hitbox.setAttribute("position", "0 0 -0.1");
+        //hitbox.setAttribute("transparent", "true");
+        //hitbox.setAttribute("scale", ".55 .55 1");
+        //hitbox.setAttribute("render-order", "hitbox");
 
         //circle.bind(updateAttribute);
-        circle.setAttribute("reset", respawn);
+        circle.reset = respawn;
 
         updateAttribute();
 
         //scene.appendChild(flutter);
         flutter.appendChild(circle);
-        circle.appendChild(hitbox);
+        //circle.appendChild(hitbox);
         bubble.appendChild(flutter);
 
         //setInterval(updateAttribute, 3000);
     },
     tick: function () {
         //if (initialize) {
-            let el = this.el;
-            let yPos = el.getAttribute("position").y;
-            if (yPos <= 0) {
-                el.updateAttribute();
-            }
+        let el = this.el;
+        let circle = this.el.querySelector("a-circle");
+        let yPos = circle.getAttribute("position").y;
+        //console.log(yPos);
+        if (yPos <= 0) {
+            el.updateAttribute();
+            //player should lose a life here...
+            
+            
+            let gameCode = document.querySelector("a-scene").components["pose-me"];
+            gameCode.loseLife();
+            gameCode.currentCombo = 0;
+            combo.setAttribute("value", "No Combo");
+            console.log("bubble popped! (dropped.)");
+        }
         //}
     }
 });
