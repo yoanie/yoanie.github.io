@@ -1,4 +1,4 @@
-#game{
+da#game{
     z-index:-1;
 }
 
@@ -35,6 +35,16 @@
 }
 
 #gameOver button{
+    position: absolute;
+    top: 50%;
+    left:45%;
+    width:156px;
+    height:78px;
+    font-size: 40px;
+    
+}
+
+#intructions button{
     position: absolute;
     top: 50%;
     left:45%;
