@@ -9,11 +9,12 @@
         <script src="https://rawgit.com/mayognaise/aframe-mouse-cursor-component/master/dist/aframe-mouse-cursor-component.min.js"></script>
         <script src="https://unpkg.com/aframe-render-order-component@1.1.0/dist/aframe-render-order-component.min.js"></script>
         <script src="./js/lookAt.js"></script>
-        <!--<script src="./js/setColor.js"></script>-->
-        <!--<script src="./js/colorChange.js"></script>-->
-
+        
+        <script src="https://unpkg.com/aframe-event-set-component@4.2.1/dist/aframe-event-set-component.min.js"></script>
+        
         <script src="./js/poseMe.js"></script>
         <script src="./js/targetCircles.js"></script>
+        <script src="./js/window.js"></script>
         <link rel="stylesheet" href="./styles/style.css" />
     </head>
     <body>
@@ -35,11 +36,12 @@
                 <img src="./assets/bubblePerson.png" id="bubble" />
                 <img src="./assets/bubblePx.png" id="bubbleCursor" />
                 <img src="./assets/ANDYBTTF.png" id="andybttf" />
-                <sound src="./assets/pop.mp3" id="pop" />
-                <sound
+            <a-assets-item src="./assets/pop.mp3" id="pop" />
+            <a-assets-item
                     src="https://cdn.glitch.global/0ffb2b61-172a-4b40-8f0c-6a963c789cb6/bach.mp3?v=1716602360835"
                     id="bkgd" />
             </a-assets>
+
 
             <a-sound
                 id="popSound"
@@ -92,11 +94,11 @@
                 mouse-cursor
                 wasd-controls-enabled="true"
                 renderer="sortObjects: true; sortTransparentObjects: true">
-                <a-cursor>
+                <a-cursor raycaster="objects:.poseMeTarget">
                     <a-text
                         id="score"
                         value="Score: 0"
-                        position="0 -0.51 -1"
+                        position="0 -0.91 -1"
                         font="./assets/ANDYB-msdf.json"
                         fontimage="#andybttf"
                         align="center"
@@ -104,7 +106,8 @@
                     <a-text
                         id="lives"
                         value="Lives: 0"
-                        position="0 -0.785 -1"
+                        position="-0.74 -1.155 -1"
+                        width="2.9"
                         font="./assets/ANDYB-msdf.json"
                         fontimage="#andybttf"
                         align="center"
@@ -112,8 +115,17 @@
                     <a-text
                         id="combo"
                         value="No Combo"
-                        position="0 -1.031 -1"
-                        width="2.38"
+                        position="0 -1.155 -1"
+                        width="2.9"
+                        font="./assets/ANDYB-msdf.json"
+                        fontimage="#andybttf"
+                        align="center"
+                        negate="false"></a-text>
+                    <a-text
+                        id="timer"
+                        value="Time: 0"
+                        position="0.74 -1.155 -1"
+                        width="2.9"
                         font="./assets/ANDYB-msdf.json"
                         fontimage="#andybttf"
                         align="center"
@@ -127,36 +139,77 @@
                         position="0 0 -13.5"
                         render-order="cursor">
                     </a-circle>
-                    <a-entity
+
+                    <a-window
+                        visible="false"
+                        position="0 0 -3"
+                        text="value:Everything is awesome!;"></a-window>
+
+                    <a-window
+                              
                         id="instructions"
-                        position="0 .51 0"
-                        text="value:Lock your phone in landscape mode. Then rotate your phone to match the rotation of the falling bubbles. Move your cursor over the bubble and match it's rotation to get a point.         ;
+                        position="0 .22 0"
+                        text="value:Lock your phone in landscape mode. Then rotate your phone to match the rotation of the falling bubbles. Move your cursor over the bubble and match it's rotation to get a point.;"
+                        geometry="width:auto; height:auto;"
+                        material="color:#FFFFFF;">
+                        <a-box
+                            id="closeInstructionsBtn"
+                            position="0 -.9 -3"
+                            width="1"
+                            height=".3"
+                            depth=".1"
+                               event-set__clickButton="_event:click; material.color:#00aa00">
+                            <a-entity
+                                position="0 0 .3"
+                                text="value:Close;
                             color:#000000;
                             align:center;
-                            wrapCount:30;
-                      font:./assets/ANDYB-msdf.json;
+                            wrapCount:30;height:15;width:3.4;
+                    font:./assets/ANDYB-msdf.json;
                       shader:msdf;
-                      negate:false;"
-                        geometry="primitive:plane; width:auto; height:auto;"
-                        material="color:#FFFFFF; shader:flat; visible:true;">
-                    </a-entity>
+                      negate:false;">
+                            </a-entity>
+                            </a-box>
+                    </a-window>
 
-                    <a-entity
+                    <a-window
                         visible="false"
                         id="gameOver"
                         position="0 .51 0"
-                        text="value:Game Over! ...;
+                        text="value:Game Over! ...;"
+                        geometry="width:auto; height:auto;"
+                        material="color:#FFFFFF;"
+                              >
+                        <a-box
+                            id="resetBtn"
+                            position="0 0 -3"
+                            width="1"
+                            height=".3"
+                            depth=".2"
+                               event-set__gameover="_event:click; material.color:#00aa00">
+                            <a-entity
+                                position="0 0 .3"
+                                text="value:Retry;
                             color:#000000;
                             align:center;
-                            wrapCount:30;
-                      font:./assets/ANDYB-msdf.json;
+                            wrapCount:30;height:15;width:2.5;
+                    font:./assets/ANDYB-msdf.json;
                       shader:msdf;
-                      negate:false;"
-                        geometry="primitive:plane; width:auto; height:auto;"
-                        material="color:#FFFFFF; shader:flat; visible:true;">
-                    </a-entity>
+                      negate:false;">
+                            </a-entity>
+                        </a-box>
+                    </a-window>
                 </a-cursor>
             </a-camera>
+            <!--<a-entity id="myButton"
+                        geometry="primitive: box; width: 2; height: 0.5; depth: 0.1"
+                        material="color: #4CC3D9"
+                        position="0 1 -3"
+                        text="value: Click Me; align: center; width: 4"
+                        event-set__mouseenter="_event: mouseenter; color: #64D8FF"
+                        event-set__mouseleave="_event: mouseleave; color: #4CC3D9"
+                        event-set__click="_event: click; scale: 0.9 0.9 0.9">
+              </a-entity>-->
         </a-scene>
 
         <script>
@@ -166,10 +219,13 @@
             //
             //let startBtn = document.querySelector("#startButton");
             //startBtn.addEventListener("click", startGame);
-
-            setTimeout(startGame, 1000); //5000);
+            let closeInstructions = document.querySelector("#closeInstructionsBtn");
+            closeInstructions.addEventListener("click", startGame);
+            
+            //setTimeout(startGame, 10000); //5000);
 
             function startGame(e) {
+                closeInstructions.removeEventListener("click", startGame);
                 //code to start game
                 //let instructions = document.querySelector("#instructions");
                 //instructions.hidden = true;
@@ -179,6 +235,11 @@
                     document.querySelector("a-scene").components["pose-me"];
                 gameCode.startGame();
             }
+            
+            this.addEventListener("game-over", ()=>{
+                console.log("game over happened");}, true);
+            
+            
         </script>
     </body>
 </html>
