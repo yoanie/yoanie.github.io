@@ -7,6 +7,8 @@ AFRAME.registerComponent("pose-me-target", {
         //let scene = document.querySelector("a-scene");
 
         const updateAttribute = function () {
+            bubble.setAttribute("position", "0 4 0");
+            
             //position
             let xVariation = 3;
             let zVariation = 1;
@@ -36,10 +38,12 @@ AFRAME.registerComponent("pose-me-target", {
                 "animation",
                 `property: position;
                 from:0 4 0; 
-                to: 0 0 0; 
+                to: 0 -1 0; 
                 loop:true; 
-                dur:${700 * Math.random() + 2500}; 
-                easing:linear;`
+                dur:${700 * Math.random() + 3000}; 
+                easing:linear;
+                pauseEvents:game-over;
+                resumeEvents:game-reset;`
             );
         };
 
@@ -57,7 +61,9 @@ AFRAME.registerComponent("pose-me-target", {
             dir:alternate; 
             dur:250; 
             easing:easeInOutSine; 
-            loop:true`
+            loop:true;
+            pauseEvents:game-over;
+            resumeEvents:game-reset;`   
         );
         flutter.setAttribute("look-at", "true");
 
@@ -91,7 +97,11 @@ AFRAME.registerComponent("pose-me-target", {
         //circle.appendChild(hitbox);
         bubble.appendChild(flutter);
 
-        //setInterval(updateAttribute, 3000);
+        setInterval(updateAttribute, 3000);
+    },
+    
+    disable: function(){
+        
     },
     tick: function () {
         //if (initialize) {
@@ -99,16 +109,14 @@ AFRAME.registerComponent("pose-me-target", {
         let circle = this.el.querySelector("a-circle");
         let yPos = circle.getAttribute("position").y;
         //console.log(yPos);
-        if (yPos <= 0) {
+        if (yPos <= -0.1) {
             el.updateAttribute();
             //player should lose a life here...
             
             
             let gameCode = document.querySelector("a-scene").components["pose-me"];
             gameCode.loseLife();
-            gameCode.currentCombo = 0;
-            combo.setAttribute("value", "No Combo");
-            console.log("bubble popped! (dropped.)");
+            console.log("bubble popped! (dropped.) y: " + yPos);
         }
         //}
     }

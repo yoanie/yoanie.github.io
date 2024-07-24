@@ -1,15 +1,23 @@
 AFRAME.registerComponent("pose-me", {
     schema: {
         player: { type: "selector", default: "" }
+        
     },
     init: function () {
         let el = this.el;
         let startFlag = false;
+        let replayBtn = document.querySelector("#resetBtn");
+        replayBtn.addEventListener("click", ()=>{
+            el.components["pose-me"].reset();});
+            alert("click");
     },
     loseLife: function () {
+        console.log(this.el); //temp
+        
         let el = this.el;
         el.currentLives--;
-
+        el.currentCombo = 0;
+        
         if (el.currentLives >= 0) {
             console.log("Life lost! You now have " + el.currentLives);
 
@@ -22,13 +30,51 @@ AFRAME.registerComponent("pose-me", {
     gameOver: function () {
         console.log("game over.");
         let gameOver = document.querySelector("#gameOver");
+        
+        let replayBtn = document.querySelector("#resetBtn");
+        replayBtn.addEventListener("click", this.el.components["pose-me"].reset);
+        
+        //stop timer    
+        this.el.startTime = null;
 
+        //stop circle animations (both flutter and gravity)
+        for (let circle of this.el.circles){
+            circle.children[0].setAttribute("animation", `property: position; 
+                from:0 2 0; 
+                to: 0 2 0; 
+                loop:false; 
+                dur:1000; 
+                easing:linear;
+                pauseEvents:game-over;
+                resumeEvents:game-reset;`);
+            circle.children[0].children[0].setAttribute("animation", `property: position;
+                from:0 0 0; 
+                to: 0 0 0; 
+                loop:false; 
+                dur:1000; 
+                easing:linear;
+                pauseEvents:game-over;
+                resumeEvents:game-reset;`);
+            circle.children[0].setAttribute("animation", "enabled", false);
+            circle.children[0].children[0].setAttribute("animation", "enabled", false);
+        }
+        
+        
         gameOver.setAttribute(
             "text",
             "value",
             `Game Over! You let all of your bubbles hit the ground. You score was ${this.el.currentScore}.`
         );
         gameOver.setAttribute("visible", true);
+        
+        this.el.addEventListener("game-over",(e)=>{console.log("event: " + e);}, false);
+        
+        //start and stop events
+        const event = new Event("game-over");
+        this.el.dispatchEvent(event);
+        
+        this.el.emit("game-over");
+        
     },
     startGame: function () {
         console.log("start game happened");
@@ -45,17 +91,17 @@ AFRAME.registerComponent("pose-me", {
         let cam = document.querySelector("#cam");
         let scene = document.querySelector("a-scene");
 
-        //lives
-        let lives = document.querySelector("#lives");
-        this.el.currentLives = 2;
-        let currentLives = this.el.currentLives;
-        lives.setAttribute("value", "Lives: " + currentLives);
-
         //score
         let score = document.querySelector("#score");
         this.el.currentScore = 0;
         let currentScore = this.el.currentScore;
         score.setAttribute("value", "Score: " + currentScore);
+        
+        //lives
+        let lives = document.querySelector("#lives");
+        this.el.currentLives = 2;
+        let currentLives = this.el.currentLives;
+        lives.setAttribute("value", "Lives: " + currentLives);
 
         //combo
         let combo = document.querySelector("#combo");
@@ -63,6 +109,14 @@ AFRAME.registerComponent("pose-me", {
         let currentCombo = this.el.currentCombo;
         combo.setAttribute("value", "Combo " + currentCombo + "x!");
 
+        //time
+        let timer = document.querySelector("#timer");
+        this.el.startTime = Date.now();
+        // updated every tick in tick: function(){...}
+        
+        //countdown so that it doesn't sometimes double the player's combo
+        let compareCooldown = Date.now();
+        
         //keep track of circles
         this.el.circles = [];
 
@@ -90,36 +144,50 @@ AFRAME.registerComponent("pose-me", {
 
         const compareRotation = function (otherCircle) {
             console.log("comparing rotation...");
-            let marginOfError = 30;
+            let marginOfError = 90;
             let camRotate = cam.getAttribute("rotation").z;
             let otherRotate = otherCircle.getAttribute("rotation").z;
 
-            if (Math.abs(camRotate - otherRotate) <= marginOfError) {
+            if (Math.abs(camRotate - otherRotate) <= marginOfError && (Date.now()-compareCooldown)>100) {
                 //to fix later!
+                otherCircle.reset();
+                compareCooldown = Date.now();
+                
                 el.sounds.pop.components.sound.playSound();
-
+                
                 currentCombo++;
                 let combo = document.querySelector("#combo");
                 combo.setAttribute("value", "Combo " + currentCombo + "x!");
 
-                currentScore += Math.floor(currentCombo / 13) + 1;
+                currentScore += Math.ceil(currentCombo / 20);
 
                 score.setAttribute("value", `Score: ${currentScore}`);
-                console.log("score: " + currentScore);
 
                 console.log("match! currentScore is " + currentScore);
-                otherCircle.reset();
+                
             } else {
                 //console.log("no match!");
             }
         };
     },
-    tick: function () {},
+    tick: function () {
+        if(this.el.startTime != null && Date.now()%10==0){ //checks for gameOver && so that it doesn't update *every* tick
+            timer.setAttribute("value", "Time: " + Math.floor((Date.now() - this.el.startTime)/1000) + "s");
+        }
+    },
     reset: function () {
+        let replayBtn = document.querySelector("#resetBtn");
+        replayBtn.removeEventListener("click", this.el.components["pose-me"].reset);
+        
+        
+        console.log("reset function happened");
         this.el.currentScore = 0;
+        this.el.startTime = Date.now();
         for (let circle of this.el.circles) {
             //hide all circles offscreen to reset
             circle.setAttribute("position", "y", -5);
         }
+        
+        this.el.components["pose-me"].startGame();
     }
 });
