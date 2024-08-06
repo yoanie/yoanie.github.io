@@ -8,16 +8,16 @@
         <!--<script src="https://unpkg.com/aframe-event-set-component@4.2.1/dist/aframe-event-set-component.min.js"></script>-->
         <script src="https://rawgit.com/mayognaise/aframe-mouse-cursor-component/master/dist/aframe-mouse-cursor-component.min.js"></script>
         <script src="https://unpkg.com/aframe-render-order-component@1.1.0/dist/aframe-render-order-component.min.js"></script>
-        <script src="./js/lookAt.js"></script>
         
         <script src="https://unpkg.com/aframe-event-set-component@4.2.1/dist/aframe-event-set-component.min.js"></script>
         
-        <script src="./js/poseMe.js"></script>
-        <script src="./js/targetCircles.js"></script>
-        <script src="./js/window.js"></script>
-        <link rel="stylesheet" href="./styles/style.css" />
+        <script src="./poseMe.js"></script>
+        <script src="./targetCircles.js"></script>
+        <script src="./window.js"></script>
+        <link rel="stylesheet" href="./style.css" />
     </head>
     <body>
+      
         <!--a
         <div id="instructions">                    
             Lock your phone in landscape mode.<br>
@@ -26,23 +26,24 @@
             <button id="startButton">Start</button>
         </div>
         -->
-
+        
         <a-scene
             id="game"
             pose-me
             cursor="rayOrigin:mouse"
             render-order="cursor, bubbles, hitbox">
             <a-assets>
-                <img src="./assets/bubblePerson.png" id="bubble" />
-                <img src="./assets/bubblePx.png" id="bubbleCursor" />
-                <img src="./assets/ANDYBTTF.png" id="andybttf" />
-            <a-assets-item src="./assets/pop.mp3" id="pop" />
-            <a-assets-item
-                    src="https://cdn.glitch.global/0ffb2b61-172a-4b40-8f0c-6a963c789cb6/bach.mp3?v=1716602360835"
-                    id="bkgd" />
+              <video id="webcam" playsinline></video>
+                <img src="https://cdn.glitch.global/8bc2caa1-4aa3-40b3-bfba-6e69e6e12be0/bubblePerson.png?v=1721785950323" id="bubble" />
+                <img src="https://cdn.glitch.global/8bc2caa1-4aa3-40b3-bfba-6e69e6e12be0/bubblePx.png?v=1721785951338" id="bubbleCursor" />
+                <img src="https://cdn.glitch.global/8bc2caa1-4aa3-40b3-bfba-6e69e6e12be0/ANDYBTTF.png?v=1721785949695" id="andybttf" />
+              <a-assets-item src="./ANDYB-msdf.json" id="andymsdf"/>
+            <a-assets-item src="https://cdn.glitch.global/8bc2caa1-4aa3-40b3-bfba-6e69e6e12be0/pop.mp3?v=1721785952355" id="pop" />
+            <a-assets-item src="https://cdn.glitch.global/0ffb2b61-172a-4b40-8f0c-6a963c789cb6/bach.mp3?v=1716602360835" id="bkgd" />
             </a-assets>
 
-
+            
+          
             <a-sound
                 id="popSound"
                 sound="src:#pop; autoplay:false; volume:0.80; loop:false; positional:true;"></a-sound>
@@ -50,43 +51,16 @@
                 id="bkgdSound"
                 sound="src:#bkgd; autoplay:true; volume:1; loop:true;positional:false;"></a-sound>
 
-            <!--
-            <a-plane
-                id="instructions"
-                color="#FFFF00"
-                position="0 0 -3"
-                width="5"
-                height="8"></a-plane>
-                -->
-
-            <a-plane
-                position="2 0.80503 -3.92"
-                rotation="0 0 0"
-                color="#6495ED"
-                look-at></a-plane>
-            <a-plane
-                position="3 0.80503 -3.92"
-                rotation="0 0 0"
-                color="#6495ED"
-                look-at></a-plane>
-            <a-plane
-                position="4 0.80503 -3.92"
-                rotation="0 0 0"
-                color="#6495ED"
-                look-at></a-plane>
-            <a-plane
-                position="5 0.80503 -3.92"
-                rotation="0 0 0"
-                color="#6495ED"
-                look-at></a-plane>
             <a-plane
                 set-color="#008899"
                 position="0 0 0"
                 color="#802020"
                 rotation="-90 0 0"
-                scale="50 50 1"></a-plane>
+                scale="50 50 1"
+                material="opacity: 0.8; transparent: true"
+                ></a-plane>
 
-            <a-sky color="#202030"></a-sky>
+<!--             <a-sky color="#202030"></a-sky> -->
 
             <a-camera
                 position="0 1.5 0"
@@ -99,7 +73,7 @@
                         id="score"
                         value="Score: 0"
                         position="0 -0.91 -1"
-                        font="./assets/ANDYB-msdf.json"
+                        font="#andymsdf"
                         fontimage="#andybttf"
                         align="center"
                         negate="false"></a-text>
@@ -108,7 +82,7 @@
                         value="Lives: 0"
                         position="-0.74 -1.155 -1"
                         width="2.9"
-                        font="./assets/ANDYB-msdf.json"
+                        font="#andymsdf"
                         fontimage="#andybttf"
                         align="center"
                         negate="false"></a-text>
@@ -117,7 +91,7 @@
                         value="No Combo"
                         position="0 -1.155 -1"
                         width="2.9"
-                        font="./assets/ANDYB-msdf.json"
+                        font="#andymsdf"
                         fontimage="#andybttf"
                         align="center"
                         negate="false"></a-text>
@@ -126,7 +100,7 @@
                         value="Time: 0"
                         position="0.74 -1.155 -1"
                         width="2.9"
-                        font="./assets/ANDYB-msdf.json"
+                        font="#andymsdf"
                         fontimage="#andybttf"
                         align="center"
                         negate="false"></a-text>
@@ -165,7 +139,7 @@
                             color:#000000;
                             align:center;
                             wrapCount:30;height:15;width:3.4;
-                    font:./assets/ANDYB-msdf.json;
+                    font:#andymsdf;
                       shader:msdf;
                       negate:false;">
                             </a-entity>
@@ -193,13 +167,24 @@
                             color:#000000;
                             align:center;
                             wrapCount:30;height:15;width:2.5;
-                    font:./assets/ANDYB-msdf.json;
+                    font:#andymsdf;
                       shader:msdf;
                       negate:false;">
                             </a-entity>
                         </a-box>
                     </a-window>
                 </a-cursor>
+              
+              
+              
+              <a-plane 
+                position="0 0 -6" 
+                rotation="0 0 0" 
+                scale="20 15 1" 
+                shadow 
+                material="src: #webcam;shader:flat"
+                
+              ></a-plane>
             </a-camera>
             <!--<a-entity id="myButton"
                         geometry="primitive: box; width: 2; height: 0.5; depth: 0.1"
@@ -238,8 +223,23 @@
             
             this.addEventListener("game-over", ()=>{
                 console.log("game over happened");}, true);
-            
-            
         </script>
+
+        <script>
+      // You can also set which camera to use (front/back/etc)
+      // @SEE https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia
+      navigator.mediaDevices.getUserMedia({ audio: false, video: true }).then((stream) => {
+        let settings = stream.getVideoTracks()[0].getSettings(); 
+        console.log(settings);
+        let game = document.getElementById("game");
+        game.setAttribute("ratio", settings.aspectRatio);            //you can add other global variables like this
+          let cam = document.querySelector("video");
+          cam.srcObject = stream;
+          cam.onloadedmetadata = () => {
+            cam.play();
+            
+          };
+        });
+    </script>
     </body>
 </html>
