@@ -3,7 +3,7 @@ AFRAME.registerPrimitive("a-window", {
         geometry: { primitive: "plane", width:"5", height:"5", position:"0 .51 0" },
         material: {color:"#aaaaaa", shader:"flat" },
         text: {value:"Game Over! ...", color:"#732040", align:"center", wrapCount:"30",
-               font:"./assets/ANDYB-msdf.json", shader:"msdf", negate:"false"}
+               font:"./ANDYB-msdf.json", shader:"msdf", negate:"false"}
     },
     mappings: {
         message: "text.value",
