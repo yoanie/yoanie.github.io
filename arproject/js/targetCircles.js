@@ -17,7 +17,7 @@ AFRAME.registerComponent("pose-me-target", {
             let position = randomX + " .5 " + randomZ;
             //let position = "0 .5 -5";
             bubble.setAttribute("position", position);
-
+            circle.setAttribute("visible", true);
             //console.log("updated attribute");
 
             //circle.setAttribute(
@@ -45,11 +45,6 @@ AFRAME.registerComponent("pose-me-target", {
                 pauseEvents:game-over;
                 resumeEvents:game-reset;`
             );
-        };
-
-        const respawn = function () {
-            //console.log("respawn");
-            updateAttribute();
         };
 
         this.el.updateAttribute = updateAttribute;
@@ -88,7 +83,7 @@ AFRAME.registerComponent("pose-me-target", {
         //hitbox.setAttribute("render-order", "hitbox");
 
         //circle.bind(updateAttribute);
-        circle.reset = respawn;
+        circle.reset = updateAttribute;
 
         updateAttribute();
 
@@ -112,11 +107,12 @@ AFRAME.registerComponent("pose-me-target", {
         if (yPos <= -0.1) {
             el.updateAttribute();
             //player should lose a life here...
-            
-            
+            let gameCode = document.querySelector("a-scene").components["pose-me"];
+          if(gameCode.el.startTime != null){ //to see if game has stopped running
             let gameCode = document.querySelector("a-scene").components["pose-me"];
             gameCode.loseLife();
-            console.log("bubble popped! (dropped.) y: " + yPos);
+            // console.log("bubble popped! (dropped.) y: " + yPos);
+          }
         }
         //}
     }
