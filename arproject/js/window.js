@@ -1,9 +1,9 @@
 AFRAME.registerPrimitive("a-window", {
     defaultComponents: {
-        geometry: { primitive: "plane", width:"5", height:"5", position:"0 .51 0" },
+        geometry: { primitive: "plane"},
         material: {color:"#aaaaaa", shader:"flat" },
         text: {value:"Game Over! ...", color:"#732040", align:"center", wrapCount:"30",
-               font:"./ANDYB-msdf.json", shader:"msdf", negate:"false"}
+               font:"./ANDYB-msdf.json", fontImage:"https://cdn.glitch.global/8bc2caa1-4aa3-40b3-bfba-6e69e6e12be0/ANDYBTTF.png?v=1721785949695", shader:"msdf", negate:"false"}
     },
     mappings: {
         message: "text.value",
