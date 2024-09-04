@@ -151,7 +151,7 @@ AFRAME.registerComponent("pose-me", {
 
         const compareRotation = function (otherCircle) {
             // console.log("comparing rotation...");
-            let marginOfError = 90;
+            let marginOfError = 15;
             let camRotate = cam.getAttribute("rotation").z;
             let otherRotate = otherCircle.getAttribute("rotation").z;
 
