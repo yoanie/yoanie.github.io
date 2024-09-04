@@ -9,10 +9,9 @@ AFRAME.registerComponent("pose-me", {
         let replayBtn = document.querySelector("#resetBtn");
         replayBtn.addEventListener("click", ()=>{
             el.components["pose-me"].reset();});
-            alert("click");
     },
     loseLife: function () {
-        console.log(this.el); //temp
+        // console.log(this.el); //temp
         
         let el = this.el;
         el.currentLives--;
@@ -24,7 +23,10 @@ AFRAME.registerComponent("pose-me", {
             let lives = document.querySelector("#lives");
             lives.setAttribute("value", "Lives: " + el.currentLives);
         } else {
+          //check to see if the game has already ended or not
+          if(el.startTime!=null){
             el.components["pose-me"].gameOver();
+          }
         }
     },
     gameOver: function () {
@@ -34,30 +36,35 @@ AFRAME.registerComponent("pose-me", {
         let replayBtn = document.querySelector("#resetBtn");
         replayBtn.addEventListener("click", this.el.components["pose-me"].reset);
         
-        //stop timer    
+        //stop timer + prevent loseLife from looping
         this.el.startTime = null;
+      
+        //hide the circles
+        for(let circle of this.el.circles){
+          circle.setAttribute("visible", false);
+        }
 
         //stop circle animations (both flutter and gravity)
-        for (let circle of this.el.circles){
-            circle.children[0].setAttribute("animation", `property: position; 
-                from:0 2 0; 
-                to: 0 2 0; 
-                loop:false; 
-                dur:1000; 
-                easing:linear;
-                pauseEvents:game-over;
-                resumeEvents:game-reset;`);
-            circle.children[0].children[0].setAttribute("animation", `property: position;
-                from:0 0 0; 
-                to: 0 0 0; 
-                loop:false; 
-                dur:1000; 
-                easing:linear;
-                pauseEvents:game-over;
-                resumeEvents:game-reset;`);
-            circle.children[0].setAttribute("animation", "enabled", false);
-            circle.children[0].children[0].setAttribute("animation", "enabled", false);
-        }
+        // for (let circle of this.el.circles){
+        //     circle.children[0].setAttribute("animation", `property: position; 
+        //         from:0 2 0; 
+        //         to: 0 2 0; 
+        //         loop:false; 
+        //         dur:1000; 
+        //         easing:linear;
+        //         pauseEvents:game-over;
+        //         resumeEvents:game-reset;`);
+        //     circle.children[0].children[0].setAttribute("animation", `property: position;
+        //         from:0 0 0; 
+        //         to: 0 0 0; 
+        //         loop:false; 
+        //         dur:1000; 
+        //         easing:linear;
+        //         pauseEvents:game-over;
+        //         resumeEvents:game-reset;`);
+        //     circle.children[0].setAttribute("animation", "enabled", false);
+        //     circle.children[0].children[0].setAttribute("animation", "enabled", false);
+        // }
         
         
         gameOver.setAttribute(
@@ -80,8 +87,8 @@ AFRAME.registerComponent("pose-me", {
         console.log("start game happened");
         let el = this.el;
 
-        let instructions = document.querySelector("#instructions");
-        instructions.setAttribute("visible", "false");
+        // let instructions = document.querySelector("#instructions");
+        // instructions.setAttribute("visible", "false");
 
         this.el.sounds = {
             pop: document.querySelector("#popSound")
@@ -99,7 +106,7 @@ AFRAME.registerComponent("pose-me", {
         
         //lives
         let lives = document.querySelector("#lives");
-        this.el.currentLives = 2;
+        this.el.currentLives = 0;
         let currentLives = this.el.currentLives;
         lives.setAttribute("value", "Lives: " + currentLives);
 
@@ -143,7 +150,7 @@ AFRAME.registerComponent("pose-me", {
         }
 
         const compareRotation = function (otherCircle) {
-            console.log("comparing rotation...");
+            // console.log("comparing rotation...");
             let marginOfError = 90;
             let camRotate = cam.getAttribute("rotation").z;
             let otherRotate = otherCircle.getAttribute("rotation").z;
@@ -176,18 +183,23 @@ AFRAME.registerComponent("pose-me", {
         }
     },
     reset: function () {
-        let replayBtn = document.querySelector("#resetBtn");
-        replayBtn.removeEventListener("click", this.el.components["pose-me"].reset);
+      window.location.reload();
+//         let replayBtn = document.querySelector("#resetBtn");
+//         replayBtn.removeEventListener("click", this.el.components["pose-me"].reset);
         
+//         //show the circles
+//         for(let circle of this.el.circles){
+//           circle.setAttribute("visible", true);
+//         }
         
-        console.log("reset function happened");
-        this.el.currentScore = 0;
-        this.el.startTime = Date.now();
-        for (let circle of this.el.circles) {
-            //hide all circles offscreen to reset
-            circle.setAttribute("position", "y", -5);
-        }
+//         console.log("reset function happened");
+//         this.el.currentScore = 0;
+//         this.el.startTime = Date.now();
+//         for (let circle of this.el.circles) {
+//             //hide all circles offscreen to reset
+//             circle.setAttribute("position", "y", -5);
+//         }
         
-        this.el.components["pose-me"].startGame();
+//         this.el.components["pose-me"].startGame();
     }
 });
